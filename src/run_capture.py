@@ -8,11 +8,11 @@ FLAGS = tf.app.flags.FLAGS
 
 """model from nvidia's training"""
 tf.app.flags.DEFINE_string(
-    'model', './data/model_nvidia/model.ckpt',
+    'model', './data/models/nvidia/model.ckpt',
     """Path to the model parameter file.""")
-# model from implemented training
+# generated model after training
 # tf.app.flags.DEFINE_string(
-#     'model', './data/model_save/model.ckpt',
+#     'model', './data/models/model.ckpt',
 #     """Path to the model parameter file.""")
 
 tf.app.flags.DEFINE_string(

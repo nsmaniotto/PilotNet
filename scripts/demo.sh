@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export online=false
-export DATASET_DIR="./data/dataset_nvidia"
-export MODEL_FILE="./data/model_nvidia/model.ckpt"
+export DATASET_DIR="./data/datasets/driving_dataset"
+export MODEL_FILE="./data/models/nvidia/model.ckpt"
 
 while test $# -gt 0; do
   case "$1" in
@@ -10,10 +10,10 @@ while test $# -gt 0; do
       echo "Usage: ./scripts/demo.sh [options]"
       echo " "
       echo "options:"
-      echo "-h, --help                show brief help"
-      echo "-model_file               model files for restoring PilotNet, default './data/model_nvidia/model.ckpt'"
-      echo "-online                   run the demo on a live webcam feed, default demo on dataset"
-      echo "-dataset_dir              dataset given input images of the road ahead, default './data/dataset_nvidia'"
+      echo "-h, --help           show brief help"
+      echo "-model_file          model files for restoring PilotNet, default './data/models/nvidia/model.ckpt'"
+      echo "-online              run the demo on a live webcam feed, default demo on dataset"
+      echo "-dataset_dir         dataset given input images of the road ahead, default './data/datasets/driving_dataset'"
       exit 0
       ;;
     -model_file)
@@ -34,10 +34,10 @@ while test $# -gt 0; do
       echo "Usage: ./scripts/demo.sh [options]"
       echo " "
       echo "options:"
-      echo "-h, --help                show brief help"
-      echo "-model_file               model files for restoring PilotNet, default './data/model_nvidia/model.ckpt'"
-      echo "-online                   run the demo on a live webcam feed, default demo on dataset"
-      echo "-dataset_dir              dataset given input images of the road ahead, default './data/dataset_nvidia'"
+      echo "-h, --help           show brief help"
+      echo "-model_file          model files for restoring PilotNet, default './data/models/nvidia/model.ckpt'"
+      echo "-online              run the demo on a live webcam feed, default demo on dataset"
+      echo "-dataset_dir         dataset given input images of the road ahead, default './data/datasets/driving_dataset'"
       exit 0
       ;;
   esac

@@ -6,7 +6,6 @@
 　　A TensorFlow implementation of this Nvidia's 
 [End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316.pdf) with some changes. And implement
 [Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car](https://arxiv.org/abs/1704.07911).
-
 ```latex
 @article{bojarski2016end,
   title={End to end learning for self-driving cars},
@@ -70,7 +69,6 @@ The instructions are tested on Ubuntu 16.04 with python 2.7 and tensorflow 1.0 w
 　If you want to run the demo on the dataset or try some training works, download the
 [driving_dataset.zip](https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing) and recommend you to
 extract into the dataset folder [`./data/dataset_nvidia/`](./data/dataset_nvidia/).
-
 ```bash
 $ cd $ROOT/data/dataset_nvidia/
 $ wget -t https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing
@@ -78,7 +76,16 @@ $ unzip driving_dataset.zip -d .
 ```
 
 　This [driving_dataset.zip](https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing) consists of
-**images of the road ahead** and recorded **steering wheel angles**.
+**images of the road ahead (`*.jpg`)** and recorded **steering wheel angles (`%.6f`)**, `data.txt` should in following
+format:
+```yaml
+    ...
+98.jpg 2.120000
+99.jpg 2.120000
+100.jpg 2.120000
+101.jpg 2.120000
+    ...
+```
 
 ## Demo
 　You can run this demo directly on a live webcam feed in actual running scenario (**online**) or just **offline**, given input
@@ -106,8 +113,48 @@ images of the road ahead.
    ```
 
 ## Training/Validation
++ After downloading the dataset, you can train your own model parameters as following:
+   ```bash
+   $ cd $ROOT
+   $ workon python1.0.0
+   (python1.0.0) $ ./scripts/train.sh -h
+   Usage: ./scripts/train.sh [options]
+    
+   options:
+   -h, --help         show brief help
+   -dataset_dir       training dataset given input images of the road ahead and
+                        recorded steering wheel angles, default './data/datasets/driving_dataset'
+   -f                 force to clear old logs if exist
+   -log_dir           path for training logs, including training summaries as well as model parameters,
+                        default in './logs' and './logs/checkpoint' respectively
+   -num_epochs        the numbers of epochs for training, default train over the dataset about 30 times.
+   -batch_size        the numbers of training examples present in a single batch for every training, default 128
+   (python1.0.0) $ ./scripts/train.sh
+   ```
+   + You can run `./scripts/train.sh` to train your model from downloaded dataset following tips above. Training logs and 
+   model will be stored into [./logs](./logs) and [./logs/checkpoint](./logs/checkpoint) respectively.
+   + `-dataset_dir` can help you to specify other available dataset.
+   + You can use `-log_dir` to set another log directory, and be careful to use `-f` for log files synchronization,
+   fix `WARNING:tensorflow:Found more than one metagraph event per run. Overwriting the metagraph with the newest event.`
+   + You can use `-num_epochs` and `-batch_size` to control the training step if good at it.
 
+<hr/>
+<p align="center">
+   <img src="./readme/tensorboard.png" width="720" alt=""/>
+</p>
 
-Use `python train.py` to train the model
-
-To visualize training using Tensorboard use `tensorboard --logdir=./logs`, then open http://0.0.0.0:6006/ into your web browser.
++ Use **Tensorboard** to visualize training, then open [http://127.0.1.1:6006](http://127.0.1.1:6006) in your web browser, 
+following figure shows the step-by-step training of given model in [./data/models/model.ckpt](./data/models) as well as
+log files in [./logs](./logs/).
+   ```bash
+   $ cd $ROOT
+   $ workon python1.0.0
+   (python1.0.0) $ tensorboard --logdir=./logs
+   I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+   I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+   I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+   I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+   I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+   Starting TensorBoard 41 on port 6006
+   (You can navigate to http://127.0.1.1:6006)
+   ```

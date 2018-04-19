@@ -12,7 +12,7 @@ tf.app.flags.DEFINE_string(
 
 """model from nvidia's training"""
 tf.app.flags.DEFINE_string(
-    'model_file', './data/model_nvidia/model.ckpt',
+    'model_file', './data/models/nvidia/model.ckpt',
     """Path to the model parameter file.""")
 
 # model from implemented training
@@ -20,8 +20,8 @@ tf.app.flags.DEFINE_string(
 #     'model', './data/model_save/model.ckpt',
 #     """Path to the model parameter file.""")
 tf.app.flags.DEFINE_string(
-    'dataset_dir', './data/dataset_nvidia/',
-    """Directory of input front view images.""")
+    'dataset_dir', './data/datasets/driving_dataset',
+    """Directory that stores input recored front view images.""")
 
 WIN_MARGIN_LEFT = 240
 WIN_MARGIN_TOP = 240
@@ -51,7 +51,7 @@ if __name__ == '__main__':
             saver.restore(sess, FLAGS.model_file)
 
             while(cv2.waitKey(10) != ord('q')):
-                full_image = scipy.misc.imread(FLAGS.dataset_dir + "/driving_dataset/" + str(i) + ".jpg", mode="RGB")
+                full_image = scipy.misc.imread(FLAGS.dataset_dir + "/" + str(i) + ".jpg", mode="RGB")
                 image = scipy.misc.imresize(full_image[-150:], [66, 200]) / 255.0
 
                 steering = sess.run(
