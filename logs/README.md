@@ -1,0 +1,1 @@
+directory for training logs, including training summaries as well as training model checkpoint.

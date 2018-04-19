@@ -17,7 +17,7 @@ tf.app.flags.DEFINE_bool(
     """force to clear old logs if exist.""")
 tf.app.flags.DEFINE_string(
     'log_dir', './logs/',
-    """Directory for training logs, including training summaries as well as model parameters.""")
+    """Directory for training logs, including training summaries as well as training model checkpoint.""")
 
 tf.app.flags.DEFINE_float(
     'L2NormConst', 1e-3,

@@ -1,1 +1,1 @@
-Nvidia PilotNet parameters, and recommend to put your training models here.
+Nvidia PilotNet parameters [./nvidia/model.ckpt](./nvidia), and recommend to put your training models here.
