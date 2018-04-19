@@ -1,6 +1,6 @@
 # _PilotNet_: End to End Learning for Self-Driving Cars
 <p align="center">
-   <img src="./readme/demo.gif" width="640" alt=""/>
+   <img src="./readme/demo.gif" width="540" alt=""/>
 </p>
 
 　　A TensorFlow implementation of this Nvidia's [End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316.pdf) with some changes. And implement [Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car](https://arxiv.org/abs/1704.07911).
