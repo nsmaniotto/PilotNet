@@ -16,8 +16,8 @@ class PilotNet(object):
 
     def __init__(self):
         self.image_input = tf.placeholder(tf.float32, shape=[None, 66, 200, 3])
-        # temporarily no use
-        y_ = tf.placeholder(tf.float32, shape=[None, 1])
+        # use for training loss computation
+        self.y_ = tf.placeholder(tf.float32, shape=[None, 1])
         self.keep_prob = tf.placeholder(tf.float32)
 
         # model parameters

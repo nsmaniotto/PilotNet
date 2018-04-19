@@ -6,22 +6,18 @@ from subprocess import call
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string(
-    'steer_image', './data/.logo/steering_wheel_image.jpg',
-    """Steering wheel image to show corresponding steering wheel angle.""")
-
 """model from nvidia's training"""
 tf.app.flags.DEFINE_string(
-    'model_file', './data/model_nvidia/model.ckpt',
+    'model', './data/model_nvidia/model.ckpt',
     """Path to the model parameter file.""")
-
 # model from implemented training
 # tf.app.flags.DEFINE_string(
 #     'model', './data/model_save/model.ckpt',
 #     """Path to the model parameter file.""")
+
 tf.app.flags.DEFINE_string(
-    'dataset_dir', './data/dataset_nvidia/',
-    """Directory of input front view images.""")
+    'steer_image', './data/.logo/steering_wheel_image.jpg',
+    """Steering wheel image to show corresponding steering wheel angle.""")
 
 WIN_MARGIN_LEFT = 240
 WIN_MARGIN_TOP = 240
@@ -32,11 +28,13 @@ if __name__ == '__main__':
     img = cv2.imread(FLAGS.steer_image, 0)
     rows,cols = img.shape
 
+    cap = cv2.VideoCapture(0)
+
     # Visualization init
     cv2.namedWindow("Steering Wheel", cv2.WINDOW_NORMAL)
     cv2.moveWindow("Steering Wheel", WIN_MARGIN_LEFT, WIN_MARGIN_TOP)
-    cv2.namedWindow("Scenario", cv2.WINDOW_NORMAL)
-    cv2.moveWindow("Scenario", WIN_MARGIN_LEFT+cols+WIN_MARGIN_BETWEEN, WIN_MARGIN_TOP)
+    cv2.namedWindow("Capture", cv2.WINDOW_NORMAL)
+    cv2.moveWindow("Capture", WIN_MARGIN_LEFT+cols+WIN_MARGIN_BETWEEN, WIN_MARGIN_TOP)
 
     with tf.Graph().as_default():
         smoothed_angle = 0
@@ -48,11 +46,11 @@ if __name__ == '__main__':
         saver = tf.train.Saver()
         with tf.Session() as sess:
             # restore model variables
-            saver.restore(sess, FLAGS.model_file)
+            saver.restore(sess, FLAGS.model)
 
             while(cv2.waitKey(10) != ord('q')):
-                full_image = scipy.misc.imread(FLAGS.dataset_dir + "/driving_dataset/" + str(i) + ".jpg", mode="RGB")
-                image = scipy.misc.imresize(full_image[-150:], [66, 200]) / 255.0
+                ret, frame = cap.read()
+                image = scipy.misc.imresize(frame, [66, 200]) / 255.0
 
                 steering = sess.run(
                     model.steering,
@@ -65,9 +63,9 @@ if __name__ == '__main__':
                 degrees = steering[0][0] * 180.0 / scipy.pi
                 call("clear")
                 print("Predicted steering angle: " + str(degrees) + " degrees")
-                # convert RGB due to dataset format
-                cv2.imshow("Scenario", cv2.cvtColor(full_image, cv2.COLOR_RGB2BGR))
-                print("Scenario image size: {} x {}").format(full_image.shape[0], full_image.shape[1])
+
+                cv2.imshow("Capture", frame)
+                print("Captured image size: {} x {}").format(frame.shape[0], frame.shape[1])
 
                 # make smooth angle transitions by turning the steering wheel based on the difference of the current angle
                 # and the predicted angle
@@ -78,4 +76,5 @@ if __name__ == '__main__':
 
                 i += 1
 
+    cap.release()
     cv2.destroyAllWindows()

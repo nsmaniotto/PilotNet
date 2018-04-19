@@ -3,7 +3,10 @@
    <img src="./readme/demo.gif" width="540" alt=""/>
 </p>
 
-　　A TensorFlow implementation of this Nvidia's [End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316.pdf) with some changes. And implement [Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car](https://arxiv.org/abs/1704.07911).
+　　A TensorFlow implementation of this Nvidia's 
+[End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316.pdf) with some changes. And implement
+[Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car](https://arxiv.org/abs/1704.07911).
+
 ```latex
 @article{bojarski2016end,
   title={End to end learning for self-driving cars},
@@ -63,23 +66,46 @@ The instructions are tested on Ubuntu 16.04 with python 2.7 and tensorflow 1.0 w
    (python1.0.0) $ pip install -r requirements.txt
    ```
 
+## Dataset
+　If you want to run the demo on the dataset or try some training works, download the
+[driving_dataset.zip](https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing) and recommend you to
+extract into the dataset folder [`./data/dataset_nvidia/`](./data/dataset_nvidia/).
+
+```bash
+$ cd $ROOT/data/dataset_nvidia/
+$ wget -t https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing
+$ unzip driving_dataset.zip -d .
+```
+
+　This [driving_dataset.zip](https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing) consists of
+**images of the road ahead** and recorded **steering wheel angles**.
+
 ## Demo
-+ Download the [dataset](https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing) and extract into the dataset folder [`./data/dataset_nvidia/`](./data/dataset_nvidia/).
-   ```bash
-   $ cd $ROOT/data/dataset_nvidia/
-   wget -t https://drive.google.com/file/d/0B-KJCaaF7elleG1RbzVPZWV4Tlk/view?usp=sharing
-   unzip driving_dataset.zip -d .
-   ```
+　You can run this demo directly on a live webcam feed in actual running scenario (**online**) or just **offline**, given input
+images of the road ahead.
 
 + Run the model on the dataset.
    ```bash
+   $ cd $ROOT
    $ workon python1.0.0
-   (python1.0.0) $ python ./src/run_dataset.py
+   (python1.0.0) $ ./scripts/demo.sh -h
+   Usage: ./scripts/demo.sh [options]
+    
+   options:
+   -h, --help                show brief help
+   -model_file               model files for restoring PilotNet, default './data/model_nvidia/model.ckpt'
+   -online                   run the demo on a live webcam feed, default demo on dataset
+   -dataset_dir              dataset given input images of the road ahead, default './data/dataset_nvidia'
+   (python1.0.0) $ ./scripts/demo.sh
    ```
-+ [option] Use `python run.py` to run the model on a live webcam feed
++ Run the model on a live webcam feed
+   ```bash
+   $ cd $ROOT
+   $ workon python1.0.0
+   (python1.0.0) $ ./scripts/demo.sh -online
+   ```
 
-
-
+## Training/Validation
 
 
 Use `python train.py` to train the model
