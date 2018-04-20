@@ -6,6 +6,10 @@
 　　A TensorFlow implementation of this Nvidia's 
 [End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316.pdf) with some changes. And implement
 [Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car](https://arxiv.org/abs/1704.07911).
+<p align="center">
+   <img src="./readme/PilotNet.png" width="640" alt=""/>
+</p>
+
 ```latex
 @article{bojarski2016end,
   title={End to end learning for self-driving cars},
@@ -158,3 +162,17 @@ log files in [./logs](./logs/).
    Starting TensorBoard 41 on port 6006
    (You can navigate to http://127.0.1.1:6006)
    ```
+
+## Visualization of Internal CNN State
+　This demonstrates that the CNN learned to detect useful road features on its own, i.e., with only the human steering
+angle as training signal. 
+
+　Show the activations of the first two feature map layers as following:
+   ```bash
+   $ cd $ROOT
+   $ workon python1.0.0
+   (python1.0.0) $ python src/show_activation.py
+   ```
+<p align="center">
+   <img src="./readme/Visualization of Internal CNN State.png" width="720" alt=""/>
+</p>

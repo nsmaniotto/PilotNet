@@ -1,6 +1,11 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+"""
+Nvidia Raw Model for Visualization of Internal CNN State
+"""
+
 import tensorflow as tf
 import scipy
-
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -13,7 +18,9 @@ def bias_variable(shape):
 def conv2d(x, W, stride):
     return tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding='VALID')
 
+# Normalized input planes 3@66x200
 x = tf.placeholder(tf.float32, shape=[None, 66, 200, 3])
+# for loss
 y_ = tf.placeholder(tf.float32, shape=[None, 1])
 
 x_image = x
@@ -48,7 +55,7 @@ b_conv5 = bias_variable([64])
 
 h_conv5 = tf.nn.relu(conv2d(h_conv4, W_conv5, 1) + b_conv5)
 
-# FCL 1
+# FCL(Fully-connected layer) 1
 W_fc1 = weight_variable([1152, 1164])
 b_fc1 = bias_variable([1164])
 
@@ -82,7 +89,7 @@ h_fc4 = tf.nn.relu(tf.matmul(h_fc3_drop, W_fc4) + b_fc4)
 
 h_fc4_drop = tf.nn.dropout(h_fc4, keep_prob)
 
-# Output
+# Output: vehicle control
 W_fc5 = weight_variable([10, 1])
 b_fc5 = bias_variable([1])
 
