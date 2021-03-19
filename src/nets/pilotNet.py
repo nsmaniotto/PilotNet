@@ -1,4 +1,4 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 def _weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)

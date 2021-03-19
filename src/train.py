@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from tensorflow.core.protobuf import saver_pb2
 from preprocess.imageSteeringDB import ImageSteeringDB
 from nets.pilotNet import PilotNet
