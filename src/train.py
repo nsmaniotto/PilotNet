@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
+
 import tensorflow.compat.v1 as tf
 from tensorflow.core.protobuf import saver_pb2
 from preprocess.imageSteeringDB import ImageSteeringDB
@@ -147,4 +149,4 @@ def train(argv=None):
 
 if __name__ == '__main__':
     # run the train function
-    tf.app.run(main=train, argv=[])
+    tf.app.run(main=train, argv=sys.argv[:1])
