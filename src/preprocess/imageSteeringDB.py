@@ -63,9 +63,7 @@ class ImageSteeringDB(object):
 
             # new version
             img_path = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images]
-            print("Non sliced", img_path)
             img_path = img_path[-150:]
-            print("Sliced", img_path)
             img = Image.open(img_path).resize(size=(200, 66))
             img = np.array(img)
             batch_imgs.append(img / 255.0)
@@ -92,6 +90,7 @@ class ImageSteeringDB(object):
             """
 
             img_path = self.val_imgs[(self.val_batch_pointer + i) % self.num_val_images]
+            img_path = img_path[-150:]
             img = Image.open(img_path).resize(size=(200, 66))
             img = np.array(img)
             batch_imgs.append(img / 255.0)
