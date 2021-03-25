@@ -1,6 +1,6 @@
 import scipy.misc
 import random
-from pil import Image
+from PIL import Image
 import numpy as np
 
 class ImageSteeringDB(object):
