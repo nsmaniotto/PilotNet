@@ -43,7 +43,14 @@ class ImageSteeringDB(object):
         batch_imgs = []
         batch_angles = []
         for i in range(0, batch_size):
+            """
+            Replace scipy.misc.imresize
+            using pillow:
+            numpy.array(Image.fromarray(arr).resize())
+            """
             batch_imgs.append(scipy.misc.imresize(
+                numpy.array(Image.fromarray(arr).resize())
+            Image.fromarray(orj_img).resize(size=(new_h, new_w))
                 scipy.misc.imread(self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images])[-150:],
                 [66, 200]) / 255.0)
             batch_angles.append([self.train_angles[(self.train_batch_pointer + i) % self.num_train_images]])
