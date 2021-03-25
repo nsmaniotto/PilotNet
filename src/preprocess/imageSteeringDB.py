@@ -64,7 +64,7 @@ class ImageSteeringDB(object):
 
             # new version
             chemin = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images][-150:]
-            image = Image.open(chemin).resize(size=(66, 200))
+            image = Image.open(chemin).resize(size=(200, 66))
             image = np.array(image)
             batch_imgs.append(image / 255.0)
             batch_angles.append([self.train_angles[(self.train_batch_pointer + i) % self.num_train_images]])
