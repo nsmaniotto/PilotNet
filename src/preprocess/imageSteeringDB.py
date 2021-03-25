@@ -1,5 +1,7 @@
 import scipy.misc
 import random
+from pil import Image
+import numpy as np
 
 class ImageSteeringDB(object):
     """Preprocess images of the road ahead ans steering angles."""
@@ -61,8 +63,8 @@ class ImageSteeringDB(object):
             """
 
             # new version
-            chemin = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images])[-150:]
-            image = Image.open(chemin).resize(size=(new_h, new_w))
+            chemin = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images][-150:]
+            image = Image.open(chemin).resize(size=(66, 200))
             image = np.array(image)
             batch_imgs.append(image / 255.0)
             batch_angles.append([self.train_angles[(self.train_batch_pointer + i) % self.num_train_images]])
