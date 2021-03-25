@@ -52,7 +52,6 @@ class ImageSteeringDB(object):
             numpy.array(Image.fromarray(arr).resize())
             """
 
-
             # old version
             """
             batch_imgs.append(scipy.misc.imresize(
@@ -63,10 +62,13 @@ class ImageSteeringDB(object):
             """
 
             # new version
-            chemin = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images][-150:]
-            image = Image.open(chemin).resize(size=(200, 66))
-            image = np.array(image)
-            batch_imgs.append(image / 255.0)
+            img_path = self.train_imgs[(self.train_batch_pointer + i) % self.num_train_images]
+            print("Non sliced", img_path)
+            img_path = img_path[-150:]
+            print("Sliced", img_path)
+            img = Image.open(img_path).resize(size=(200, 66))
+            img = np.array(img)
+            batch_imgs.append(img / 255.0)
             batch_angles.append([self.train_angles[(self.train_batch_pointer + i) % self.num_train_images]])
         self.train_batch_pointer += batch_size
         return batch_imgs, batch_angles
@@ -75,7 +77,24 @@ class ImageSteeringDB(object):
         batch_imgs = []
         batch_angles = []
         for i in range(0, batch_size):
+
+            # idea
+            """
+            Replace deprecated scipy.misc.imresize
+            using pillow:
+            numpy.array(Image.fromarray(arr).resize())
+            """
+
+
+            # old version
+            """
             batch_imgs.append(scipy.misc.imresize(scipy.misc.imread(self.val_imgs[(self.val_batch_pointer + i) % self.num_val_images])[-150:], [66, 200]) / 255.0)
+            """
+
+            img_path = self.val_imgs[(self.val_batch_pointer + i) % self.num_val_images]
+            img = Image.open(img_path).resize(size=(200, 66))
+            img = np.array(img)
+            batch_imgs.append(img / 255.0)
             batch_angles.append([self.val_angles[(self.val_batch_pointer + i) % self.num_val_images]])
         self.val_batch_pointer += batch_size
         return batch_imgs, batch_angles
