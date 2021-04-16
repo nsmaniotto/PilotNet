@@ -15,7 +15,9 @@ class ImageSteeringDB(object):
         self.val_batch_pointer = 0
 
         # read data.txt
-        data_path = data_dir + "/"
+        #data_path = data_dir + "/"
+        data_path ="/scratch/rmoine/PIR/PilotNet/data/datasets/driving_dataset/"
+
         with open(data_path + "data.txt") as f:
             for line in f:
                 imgs.append(data_path + line.split()[0])
