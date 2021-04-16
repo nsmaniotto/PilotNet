@@ -4,6 +4,9 @@ from nets.pilotNet import PilotNet
 import cv2
 from subprocess import call
 
+from PIL import Image
+import numpy as np
+
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string(
@@ -45,14 +48,32 @@ if __name__ == '__main__':
         # construct model
         model = PilotNet()
 
+        """
         saver = tf.train.Saver()
         with tf.Session() as sess:
             # restore model variables
             saver.restore(sess, FLAGS.model_file)
+        """
 
-            while(cv2.waitKey(10) != ord('q')):
+        with tf.Session() as sess:
+            saver = tf.train.import_meta_graph(FLAGS.model_file + '.meta')
+            saver.restore(sess, FLAGS.model_file)
+
+            call("clear")
+
+            # while """cv2.waitKey(10) != ord('q') &""" (i < 4):
+            while i < 5:
+                """
                 full_image = scipy.misc.imread(FLAGS.dataset_dir + "/" + str(i) + ".jpg", mode="RGB")
                 image = scipy.misc.imresize(full_image[-150:], [66, 200]) / 255.0
+                """
+
+                img_path = FLAGS.dataset_dir + "/" + str(i) + ".jpg"
+                img_path = img_path[-150:]
+                full_image = Image.open(img_path)
+                img = full_image.resize(size=(200, 66))
+                img = np.array(img)
+                image = (img / 255.0)
 
                 steering = sess.run(
                     model.steering,
@@ -63,11 +84,12 @@ if __name__ == '__main__':
                 )
 
                 degrees = steering[0][0] * 180.0 / scipy.pi
-                call("clear")
+                # call("clear")
                 print("Predicted steering angle: " + str(degrees) + " degrees")
                 # convert RGB due to dataset format
-                cv2.imshow("Scenario", cv2.cvtColor(full_image, cv2.COLOR_RGB2BGR))
-                print("Scenario image size: {} x {}").format(full_image.shape[0], full_image.shape[1])
+
+                # cv2.imshow("Scenario", cv2.cvtColor(full_image, cv2.COLOR_RGB2BGR))
+                # print("Scenario image size: {} x {}").format(full_image.shape[0], full_image.shape[1])
 
                 # make smooth angle transitions by turning the steering wheel based on the difference of the current angle
                 # and the predicted angle
@@ -75,6 +97,7 @@ if __name__ == '__main__':
                 M = cv2.getRotationMatrix2D((cols/2,rows/2), -smoothed_angle, 1)
                 dst = cv2.warpAffine(img,M,(cols,rows))
                 cv2.imshow("Steering Wheel", dst)
+
 
                 i += 1
 
