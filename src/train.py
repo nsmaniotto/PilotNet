@@ -87,7 +87,7 @@ def train(argv=None):
 
             # op to write logs to Tensorboard
             summary_writer = tf.summary.FileWriter(FLAGS.log_dir, graph=sess.graph)
-            save_model_path = FLAGS.log_dir + "/checkpoint/"
+            save_model_path = FLAGS.dataset_dir + "/checkpoint/"
 
             print("Run the command line:\n" \
                   "--> tensorboard --logdir={} " \
