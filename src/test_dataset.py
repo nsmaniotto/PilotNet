@@ -15,7 +15,7 @@ tf.app.flags.DEFINE_string(
 
 tf.app.flags.DEFINE_string(
     'dataset_dir', '../data/datasets/driving_dataset/sample',
-    """Directory that stores input recored front view images.""")
+    """Directory that stores input recorded front view images.""")
 
 if __name__ == '__main__':
 
